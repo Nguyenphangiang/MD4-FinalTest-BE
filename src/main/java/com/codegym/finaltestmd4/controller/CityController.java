@@ -35,7 +35,7 @@ public class CityController {
     private ResponseEntity<City> editCityInformation(@PathVariable Long id,@RequestBody City city){
         Optional<City> optionalCity = cityService.findById(id);
         city.setId(optionalCity.get().getId());
-        return new ResponseEntity<>(city,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(cityService.save(city),HttpStatus.ACCEPTED);
     }
     @DeleteMapping("/{id}")
     private ResponseEntity<City> deleteCity(@PathVariable Long id){
@@ -46,5 +46,11 @@ public class CityController {
     @GetMapping("/country")
     private ResponseEntity<Iterable<Country>> showAllCountry(){
         return new ResponseEntity<>(countryService.findAll(),HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    private ResponseEntity<City> findOneById(@PathVariable Long id){
+        Optional<City> optionalCity = cityService.findById(id);
+        City city = optionalCity.get();
+        return new ResponseEntity<>(city,HttpStatus.OK);
     }
 }
